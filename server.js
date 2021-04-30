@@ -1,11 +1,10 @@
 const express = require('express')
 require('dotenv').config()
-var logger = require('./util/logger')
 var httpLogger = require('./util/httplogger')
 var cron = require('node-cron')
-var fs = require('fs')
 var bodyParser = require('body-parser')
 var { MongoClient } = require('mongodb')
+var sendEmail = require('./util/sendmail')
 
 const app = express()
 app.use(express.static(__dirname + '/dist'));
@@ -25,17 +24,19 @@ function errorHandler (err, req, res, next) {
 }
 
 // CRON JOB
-cron.schedule("00 12 5 * * *", async() => {
+cron.schedule("00 12 5 * * * *", async() => {
   console.log('--------------------------')
   console.log('RUNNING CRON JOB')
   MongoClient.connect(process.env.MONGODB_URI, (error, client) => {
     var db = client.db('remainder').collection('notification')
     var startDate = new Date()
-    startDate.setHours(5)
-    startDate.setMinutes(12)
-    db.find({ date: { $eq: Date()}, time : { $gt: startDate}}, async(res)=>{
-        console.log('Res', res)
+    startDate.setDate(startDate.getDate() + 1)
+    db.find({ date: { $lte: new Date(startDate)} }).toArray(async(err, res)=>{
+      res.forEach(async(data) => {
+        await sendEmail(data.to, data.subject, data.content)
       })
+    })
+    db.deleteMany({ date: { $lte: new Date(startDate)} })
   })
 })
 
