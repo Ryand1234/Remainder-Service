@@ -7,6 +7,7 @@ var { MongoClient } = require('mongodb')
 var sendEmail = require('./util/sendmail')
 var bcrypt = require('bcryptjs')
 var htmlContent = require('./util/erroremail')
+var path = require('path')
 
 const app = express()
 app.use(express.static(__dirname + '/dist'));
@@ -71,6 +72,10 @@ app.post('/notify', async (req, res) => {
     await sendEmail('riyandhiman14@gmail.com', 'Error in Remainder Service', content)
     res.status(400).json({ msg: "invalid token", status: false})
   }
+})
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'util/home.html'))
 })
 
 app.listen(process.env.PORT || 3000, () => {

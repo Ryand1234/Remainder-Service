@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+  <head>
+    <title>Remainder Service</title>
+    <style>
+			body{
+				background-color: black;
+			}
+			.info-head{
+				text-align: center;
+				background-color: lightpink ;
+        color: black;
+			}
+			.info-content {	
+				margin: 30px;
+				border: 20px;
+        font-size: 15px;
+				color : white;
+				height: 200px;
+			}
+      .info-footer {
+				background-color: lightgrey;
+				padding: 15px;
+				padding-left: 20px; 
+				font-size: 14px;
+        color: black;
+				text-align: center;
+			}
+			.info-link {
+				color: black;
+				font-style: italic;
+			}
+    </style>
+  </head>
+  <body>
+    <h1 class="info-head">Remainder Service</h1>
+    <div class="info-content">
+      <p>Remainder Service is a service in which you can add you content and it will send email to the users automatically.</p>
+      <p>Currently emails got sent to users at 5:12 AM, which will become configurable in future updates.</p>
+      <h2>How to add notification</h2>
+      <p>Hit this <a href="https://remainder-model.herokuapp.com/notify" style="color: white; font-style: italic;">API</a> with your content and it will add the content for cron job.</p>
+      <p>Data Format: </p>
+      <code>{ "to": "recivers email address", "content": "email content", "subject": "email subject", "date": "date of sending email }</code>
+    </div>
+  </body>
+  <footer class="info-footer">
+    <p class="ide-dev">Developed By Riyan Dhiman</p>
+    <p class="ide-proj-link">Link to Project <a class="info-link" href="https://github.com/Ryand1234/Remainder-Service">Github</a><p>
+  </footer>
+</html>
