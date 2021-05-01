@@ -49,7 +49,7 @@ cron.schedule("00 12 5 * * * *", async() => {
 })
 
 app.post('/notify', async (req, res) => {
-  if(bcrypt.compareSync(req.body.token, process.env.token))
+  if(bcrypt.compareSync(process.env.token, req.body.token))
   {
     MongoClient.connect(process.env.MONGODB_URI, (error, client) => {
       var db = client.db('remainder').collection('notification')
